@@ -32,6 +32,25 @@
 extern "C" {
 #endif
 
+/**
+ * Writes a single byte to the HT16K33.
+ *
+ * @param value     The value to write to the HT16K33.
+ *
+ * @return 0 o, success, error code on error.
+ */
+int ht16k33_i2c_write8(uint8_t value);
+
+/**
+ * Writes multiple bytes to the HT16K33.
+ *
+ * @param buffer    Pointer to the buffer containing the data to write.
+ * @param len       The number of bytes in the data buffer (max 8!).
+ *
+ * @return 0 o, success, error code on error.
+ */
+int ht16k33_i2c_writelen(uint8_t *buffer, uint8_t len);
+
 #ifdef __cplusplus
 }
 #endif
