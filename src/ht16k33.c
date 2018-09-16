@@ -20,8 +20,43 @@
 #include "ht16k33/ht16k33.h"
 #include "ht16k33_priv.h"
 
+/* Define the stats section and records */
+STATS_SECT_START(ht16k33_stat_section)
+    STATS_SECT_ENTRY(errors)
+STATS_SECT_END
+
+/* Define stat names for querying */
+STATS_NAME_START(ht16k33_stat_section)
+    STATS_NAME(ht16k33_stat_section, errors)
+STATS_NAME_END(ht16k33_stat_section)
+
+/* Global variable used to hold stats data */
+STATS_SECT_DECL(ht16k33_stat_section) g_ht16k33stats;
+
+#define HT16K33_LOG(lvl_, ...) \
+    MODLOG_ ## lvl_(MYNEWT_VAL(HT16K33_LOG_MODULE), __VA_ARGS__)
+
 int
 ht16k33_init(void)
 {
-    return 0;
+    int rc;
+
+    /* Initialise the stats entry. */
+    rc = stats_init(
+        STATS_HDR(g_ht16k33stats),
+        STATS_SIZE_INIT_PARMS(g_ht16k33stats, STATS_SIZE_32),
+        STATS_NAME_INIT_PARMS(ht16k33_stat_section));
+    if (rc != 0) {
+        goto err;
+    }
+
+    /* Register the entry with the stats registry. */
+    rc = stats_register("ht16k33", STATS_HDR(g_ht16k33stats));
+    if (rc != 0) {
+        goto err;
+    }
+
+    return (0);
+err:
+    return (rc);
 }
