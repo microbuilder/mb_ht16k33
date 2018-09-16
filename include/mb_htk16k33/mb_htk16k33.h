@@ -51,6 +51,8 @@
  * \ingroup HTK16K33
  *  @{ */
 
+int htk16k33_init(void);
+
 /** @} */ /* End of FUNC group */
 
 #if MYNEWT_VAL(HTK16K33_CLI)
