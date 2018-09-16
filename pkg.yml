@@ -17,7 +17,7 @@
 # under the License.
 #
 
-pkg.name: mb_htk16k33
+pkg.name: htk16k33
 pkg.description: HTK16K33 14-segment display driver
 pkg.author: "Kevin Townsend"
 pkg.homepage: "http://mynewt.apache.org/"
