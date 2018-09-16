@@ -19,6 +19,6 @@
 
 syscfg.defs:
     # Shell support has to be disabled for unit tests
-    HTK16K33_CLI:
-        description: 'Enable shell support for the HTK16K33.'
+    HT16K33_CLI:
+        description: 'Enable shell support for the HT16K33.'
         value: 0

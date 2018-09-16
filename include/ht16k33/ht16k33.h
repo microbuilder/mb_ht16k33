@@ -18,13 +18,13 @@
  */
 
 /**
- * \defgroup HTK16K33 htk15k33
+ * \defgroup HT16K33 ht15k33
  *
  * Functions to work with the HT16K33 14-segment display driver.
  */
 
- #ifndef _MB_HTK16K33_H_
- #define _MB_HRK16K33_H_
+ #ifndef _MB_HT16K33_H_
+ #define _MB_HT16K33_H_
 
  #include <stdint.h>
  #include "os/mynewt.h"
@@ -36,9 +36,9 @@
  /**
   * @addtogroup STRUCTS Structs and Enums
   *
-  * HTK16K33-related structs and enums.
+  * HT16K33-related structs and enums.
   *
-  * \ingroup HTK16K33
+  * \ingroup HT16K33
   *  @{ */
 
 /** @} */ /* End of STRUCT group */
@@ -46,23 +46,23 @@
 /**
  * @addtogroup FUNC Functions
  *
- * Functions to work with the HTK16K33.
+ * Functions to work with the HT16K33.
  *
- * \ingroup HTK16K33
+ * \ingroup HT16K33
  *  @{ */
 
-int htk16k33_init(void);
+int ht16k33_init(void);
 
 /** @} */ /* End of FUNC group */
 
-#if MYNEWT_VAL(HTK16K33_CLI)
-int htk16k33_shell_init(void);
+#if MYNEWT_VAL(HT16K33_CLI)
+int ht16k33_shell_init(void);
 #endif
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _MB_HTK16K33_H_ */
+#endif /* _MB_HT16K33_H_ */
 
-/** @} */ /* End of HTK16K33 group */
+/** @} */ /* End of HT16K33 group */

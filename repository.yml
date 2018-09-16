@@ -17,7 +17,7 @@
 # under the License.
 #
 
-repo.name: mb_htk16k33
+repo.name: mb_ht16k33
 repo.versions:
     "0.0.0": "master"
 

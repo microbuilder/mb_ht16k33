@@ -17,11 +17,11 @@
  * Architecture is set by the BSP/MCU combination.
  */
 
-#include "htk16k33/htk16k33.h"
-#include "htk16k33_priv.h"
+#include "ht16k33/ht16k33.h"
+#include "ht16k33_priv.h"
 
 int
-htk16k33_init(void)
+ht16k33_init(void)
 {
     return 0;
 }

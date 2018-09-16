@@ -17,8 +17,8 @@
  * under the License.
  */
 
-#ifndef __HTK16K33_PRIV_H__
-#define __HTK16K33_PRIV_H__
+#ifndef __HT16K33_PRIV_H__
+#define __HT16K33_PRIV_H__
 
 #include "os/mynewt.h"
 #include "hal/hal_i2c.h"
@@ -26,7 +26,7 @@
 #include "modlog/modlog.h"
 #include "stats/stats.h"
 #include "syscfg/syscfg.h"
-#include "htk16k33/htk16k33.h"
+#include "ht16k33/ht16k33.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,4 +36,4 @@ extern "C" {
 }
 #endif
 
-#endif /* __HTK16K33_PRIV_H__ */
+#endif /* __HT16K33_PRIV_H__ */
