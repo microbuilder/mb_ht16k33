@@ -18,6 +18,7 @@
  */
 
 #include "htk16k33/htk16k33.h"
+#include "htk16k33_priv.h"
 
 int
 htk16k33_init(void)
