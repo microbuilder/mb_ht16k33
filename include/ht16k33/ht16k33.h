@@ -44,16 +44,16 @@
  #define HT16K33_REG_CMD_MODE_STDBY           (0b00100000)
 
  /** Turns the display on and sets blinky rate to 0. */
- #define HT16K33_REG_DISP_ON_BLINK_NONE       (0b10000000)
+ #define HT16K33_REG_DISP_ON_BLINK_NONE       (0b10000001)
 
  /** Turns the display on and sets blinky rate to 2Hz. */
- #define HT16K33_REG_DISP_ON_BLINK_2HZ        (0b10000010)
+ #define HT16K33_REG_DISP_ON_BLINK_2HZ        (0b10000011)
 
  /** Turns the display on and sets blinky rate to 1Hz. */
- #define HT16K33_REG_DISP_ON_BLINK_1HZ        (0b10000100)
+ #define HT16K33_REG_DISP_ON_BLINK_1HZ        (0b10000101)
 
  /** Turns the display on and sets blinky rate to 0.5Hz. */
- #define HT16K33_REG_DISP_ON_BLINK_0_5HZ      (0b10000110)
+ #define HT16K33_REG_DISP_ON_BLINK_0_5HZ      (0b10000111)
 
  /** Turns the display off. */
  #define HT16K33_REG_DISP_OFF                 (0b00000000)
@@ -145,6 +145,14 @@ extern const uint16_t ht16k33_tbl_alpha[];
  */
 int ht16k33_init(uint8_t brightness);
 
+
+/**
+ * Clears the display.
+ *
+ * @return 0 on success, an error code on error.
+ */
+int ht16k33_clear(void);
+
 /**
  * Writes a command byte to the HT16K33.
  *
@@ -180,11 +188,12 @@ int ht16k33_write_hex(uint8_t addr, uint8_t value, bool dec);
  * Writes an alpha-numeric value to the specified address on the HT16K33.
  *
  * @param addr      The address to write data to.
- * @param alpha     The alpha-numeric value to write to 'addr'.
+ * @param value     The alpha-numeric value to write to 'addr'.
+ * @param dec       Whether or not to display the decimal point.
  *
  * @return 0 on success, an error code on error.
  */
-int ht16k33_write_alpha(uint8_t addr, uint8_t alpha);
+int ht16k33_write_alpha(uint8_t addr, uint8_t value, bool dec);
 
 #if MYNEWT_VAL(HT16K33_CLI)
 /**

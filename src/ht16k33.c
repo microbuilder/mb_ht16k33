@@ -36,25 +36,8 @@ STATS_SECT_DECL(ht16k33_stat_section) g_ht16k33stats;
 #define HT16K33_LOG(lvl_, ...) \
     MODLOG_ ## lvl_(MYNEWT_VAL(HT16K33_LOG_MODULE), __VA_ARGS__)
 
-/** Hexadecimal number lookup table (0x0..0xF). */
-const uint8_t ht16k33_tbl_hex[] = {
-	0x3F, /* 0 */
-	0x06, /* 1 */
-	0x5B, /* 2 */
-	0x4F, /* 3 */
-	0x66, /* 4 */
-	0x6D, /* 5 */
-	0x7D, /* 6 */
-	0x07, /* 7 */
-	0x7F, /* 8 */
-	0x6F, /* 9 */
-	0x77, /* a */
-	0x7C, /* b */
-	0x39, /* C */
-	0x5E, /* d */
-	0x79, /* E */
-	0x71, /* F */
-};
+/** Buffer for the four display characters plus a starting address byte. */
+static uint8_t ht16k33_buffer_16[9] = { 0 };
 
 /** Alpha-numeric lookup table. */
 const uint16_t ht16k33_tbl_alpha[] = {
@@ -282,6 +265,12 @@ ht16k33_init(uint8_t brightness)
         goto err;
     }
 
+    /* Clear the display. */
+    rc = ht16k33_clear();
+    if (rc != 0) {
+        goto err;
+    }
+
     /* Turn the display on. */
     rc = ht16k33_write_cmd(HT16K33_REG_DISP_ON_BLINK_NONE);
     if (rc != 0) {
@@ -297,6 +286,25 @@ ht16k33_init(uint8_t brightness)
     return (0);
 err:
     return (rc);
+}
+
+int
+ht16k33_clear(void)
+{
+    int rc;
+
+    /* Clear the buffer. */
+    memset(ht16k33_buffer_16, 0, sizeof(ht16k33_buffer_16));
+
+    rc = ht16k33_i2c_writelen(ht16k33_buffer_16,
+        sizeof(ht16k33_buffer_16));
+    if (rc != 0) {
+        goto err;
+    }
+
+    return 0;
+err:
+    return rc;
 }
 
 int
@@ -319,41 +327,22 @@ ht16k33_write_num(uint8_t addr, uint8_t value, bool dec)
 {
     int rc;
 
-    if (value > 10) {
-        rc = OS_EINVAL;
-        goto err;
-    }
-
-    return ht16k33_write_hex(addr, value, dec);
-err:
-    return rc;
-}
-
-int
-ht16k33_write_hex(uint8_t addr, uint8_t value, bool dec)
-{
-    int rc;
-    uint8_t buf[3] = { 0 };
-
     /* Make sure we stay in range. */
-    if (value > 0xF) {
+    if (value > 9) {
         rc = OS_EINVAL;
         goto err;
     }
 
-    /* Set the address and filler byte. */
-    buf[0] = addr;
-    buf[1] = 0x00;
+    /* Set the address and hex data. */
+    ht16k33_buffer_16[addr*2+1] = (ht16k33_tbl_alpha[value + 48] & 0xFF);
+    ht16k33_buffer_16[addr*2+2] = (ht16k33_tbl_alpha[value + 48] >> 8) & 0xFF;
 
     /* Add the decimal point to the output if requested. */
     if (dec) {
-        buf[2] = ht16k33_tbl_hex[value] | (1<<14);
-    }
-    else {
-        buf[2] = ht16k33_tbl_hex[value];
+        ht16k33_buffer_16[addr*2+2] |= 0x40;
     }
 
-    rc = ht16k33_i2c_writelen(buf, 2);
+    rc = ht16k33_i2c_writelen(ht16k33_buffer_16, sizeof(ht16k33_buffer_16));
     if (rc != 0) {
         goto err;
     }
@@ -364,23 +353,49 @@ err:
 }
 
 int
-ht16k33_write_alpha(uint8_t addr, uint8_t alpha)
+ht16k33_write_hex(uint8_t addr, uint8_t value, bool dec)
 {
     int rc;
 
-    uint8_t buf[3] = { addr };
-
     /* Make sure we stay in range. */
-    if (alpha-1 > 128) {
+    if (value > 0xF) {
         rc = OS_EINVAL;
         goto err;
     }
 
-    /* Pull the appropriate half-word from the lookup table. */
-    buf[1] = (ht16k33_tbl_alpha[alpha-1]  >> 8) & 0xFF;
-    buf[2] = ht16k33_tbl_alpha[alpha-1] & 0xFF;
+    if (value < 10) {
+        /* Handle decimal values 0..9 */
+        return ht16k33_write_num(addr, value, dec);
+    } else {
+        /* Display HEX value as ASCII */
+        return ht16k33_write_alpha(addr, value+55, dec);
+    }
 
-    rc = ht16k33_i2c_writelen(buf, 3);
+err:
+    return rc;
+}
+
+int
+ht16k33_write_alpha(uint8_t addr, uint8_t value, bool dec)
+{
+    int rc;
+
+    /* Make sure we stay in range. */
+    if (value >= 128) {
+        rc = OS_EINVAL;
+        goto err;
+    }
+
+    /* Set the address and hex data. */
+    ht16k33_buffer_16[addr*2+1] = (ht16k33_tbl_alpha[value] & 0xFF);
+    ht16k33_buffer_16[addr*2+2] = (ht16k33_tbl_alpha[value] >> 8) & 0xFF;
+
+    /* Add the decimal point to the output if requested. */
+    if (dec) {
+        ht16k33_buffer_16[addr*2+2] |= 0x40;
+    }
+
+    rc = ht16k33_i2c_writelen(ht16k33_buffer_16, sizeof(ht16k33_buffer_16));
     if (rc != 0) {
         goto err;
     }
