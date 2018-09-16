@@ -33,13 +33,13 @@
  extern "C" {
  #endif
 
- /**
-  * @addtogroup STRUCTS Structs and Enums
-  *
-  * HT16K33-related structs and enums.
-  *
-  * \ingroup HT16K33
-  *  @{ */
+/**
+ * @addtogroup STRUCTS Structs and Enums
+ *
+ * HT16K33-related structs and enums.
+ *
+ * \ingroup HT16K33
+ *  @{ */
 
 /** @} */ /* End of STRUCT group */
 
