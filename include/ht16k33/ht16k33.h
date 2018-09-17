@@ -113,22 +113,6 @@
  #endif
 
 /**
- * @addtogroup STRUCTS Structs and Enums
- *
- * HT16K33-related structs and enums.
- *
- * \ingroup HT16K33
- *  @{ */
-
-/** Hexadecimal lookup table, 0x0..0xF (defined in ht16k33.c). */
-extern const uint8_t ht16k33_tbl_hex[];
-
-/** Alpha-numeric lookup table (defined in ht16k33.c). */
-extern const uint16_t ht16k33_tbl_alpha[];
-
-/** @} */ /* End of STRUCT group */
-
-/**
  * @addtogroup FUNC Functions
  *
  * Functions to work with the HT16K33.

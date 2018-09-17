@@ -37,10 +37,10 @@ STATS_SECT_DECL(ht16k33_stat_section) g_ht16k33stats;
     MODLOG_ ## lvl_(MYNEWT_VAL(HT16K33_LOG_MODULE), __VA_ARGS__)
 
 /** Buffer for the four display characters plus a starting address byte. */
-static uint8_t ht16k33_buffer_16[9] = { 0 };
+static uint8_t g_ht16k33_buffer_16[9] = { 0 };
 
 /** Alpha-numeric lookup table. */
-const uint16_t ht16k33_tbl_alpha[] = {
+const uint16_t g_ht16k33_tbl_alpha[] = {
     0b0000000000000001,
     0b0000000000000010,
     0b0000000000000100,
@@ -294,10 +294,10 @@ ht16k33_clear(void)
     int rc;
 
     /* Clear the buffer. */
-    memset(ht16k33_buffer_16, 0, sizeof(ht16k33_buffer_16));
+    memset(g_ht16k33_buffer_16, 0, sizeof(g_ht16k33_buffer_16));
 
-    rc = ht16k33_i2c_writelen(ht16k33_buffer_16,
-        sizeof(ht16k33_buffer_16));
+    rc = ht16k33_i2c_writelen(g_ht16k33_buffer_16,
+        sizeof(g_ht16k33_buffer_16));
     if (rc != 0) {
         goto err;
     }
@@ -334,15 +334,15 @@ ht16k33_write_num(uint8_t addr, uint8_t value, bool dec)
     }
 
     /* Set the address and hex data. */
-    ht16k33_buffer_16[addr*2+1] = (ht16k33_tbl_alpha[value + 48] & 0xFF);
-    ht16k33_buffer_16[addr*2+2] = (ht16k33_tbl_alpha[value + 48] >> 8) & 0xFF;
+    g_ht16k33_buffer_16[addr*2+1] = (g_ht16k33_tbl_alpha[value + 48] & 0xFF);
+    g_ht16k33_buffer_16[addr*2+2] = (g_ht16k33_tbl_alpha[value + 48]>>8) & 0xFF;
 
     /* Add the decimal point to the output if requested. */
     if (dec) {
-        ht16k33_buffer_16[addr*2+2] |= 0x40;
+        g_ht16k33_buffer_16[addr*2+2] |= 0x40;
     }
 
-    rc = ht16k33_i2c_writelen(ht16k33_buffer_16, sizeof(ht16k33_buffer_16));
+    rc = ht16k33_i2c_writelen(g_ht16k33_buffer_16, sizeof(g_ht16k33_buffer_16));
     if (rc != 0) {
         goto err;
     }
@@ -387,15 +387,15 @@ ht16k33_write_alpha(uint8_t addr, uint8_t value, bool dec)
     }
 
     /* Set the address and hex data. */
-    ht16k33_buffer_16[addr*2+1] = (ht16k33_tbl_alpha[value] & 0xFF);
-    ht16k33_buffer_16[addr*2+2] = (ht16k33_tbl_alpha[value] >> 8) & 0xFF;
+    g_ht16k33_buffer_16[addr*2+1] = (g_ht16k33_tbl_alpha[value] & 0xFF);
+    g_ht16k33_buffer_16[addr*2+2] = (g_ht16k33_tbl_alpha[value] >> 8) & 0xFF;
 
     /* Add the decimal point to the output if requested. */
     if (dec) {
-        ht16k33_buffer_16[addr*2+2] |= 0x40;
+        g_ht16k33_buffer_16[addr*2+2] |= 0x40;
     }
 
-    rc = ht16k33_i2c_writelen(ht16k33_buffer_16, sizeof(ht16k33_buffer_16));
+    rc = ht16k33_i2c_writelen(g_ht16k33_buffer_16, sizeof(g_ht16k33_buffer_16));
     if (rc != 0) {
         goto err;
     }
