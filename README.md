@@ -1,13 +1,12 @@
 # HT16K33 14-Segment Display Driver for Apache Mynewt
 
-The main package documentation for this repository is available at
-[microbuilder.io/mb_ht16k33](http://microbuilder.io/mb_ht16k33).
-
-It has been written against Apache Mynewt 1.4.1.
+This has been written against Apache Mynewt 1.4.1. Changes may be required
+when using it with different releases.
 
 # Folder Structure
 
-- Reasonably complete **documentation** is available in the `docs` folder.
+- Reasonably complete **documentation** is available in the `docs` folder. The
+documentation can be built via `doxygen Doxyfile`.
 
 # Hardware
 
