@@ -186,7 +186,8 @@ ht16k33_i2c_write8(uint8_t value)
     /* TODO: Add locking interface for I2C access. */
 
     rc = i2cn_master_write(MYNEWT_VAL(HT16K33_ITF_NUM), &data_struct,
-        OS_TICKS_PER_SEC / 10, 1, MYNEWT_VAL(HT16K33_I2C_RETRIES));
+        MYNEWT_VAL(HT16K33_I2C_TIMEOUT_TICKS), 1,
+        MYNEWT_VAL(HT16K33_I2C_RETRIES));
     if (rc) {
         HT16K33_LOG(ERROR,
                     "Failed to write to 0x%02X with value 0x%02lX\n",
@@ -222,7 +223,8 @@ ht16k33_i2c_writelen(uint8_t *buffer, uint8_t len)
 
     /* Write data */
     rc = i2cn_master_write(MYNEWT_VAL(HT16K33_ITF_NUM), &data_struct,
-        OS_TICKS_PER_SEC / 10, len, MYNEWT_VAL(HT16K33_I2C_RETRIES));
+        MYNEWT_VAL(HT16K33_I2C_TIMEOUT_TICKS), len,
+        MYNEWT_VAL(HT16K33_I2C_RETRIES));
     if (rc) {
         HT16K33_LOG(ERROR, "I2C access failed at address 0x%02X\n",
                     data_struct.address);
@@ -242,7 +244,7 @@ ht16k33_init(uint8_t brightness)
     int rc;
 
     /* Insert a short delay to allow the IC to start up. */
-    os_time_delay((1 * OS_TICKS_PER_SEC)/1000);
+    os_time_delay(MYNEWT_VAL(HT16K33_STARTUP_DELAY_TICKS));
 
     /* Initialise the stats entry. */
     rc = stats_init(
