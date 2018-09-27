@@ -1,12 +1,14 @@
 # HT16K33 14-Segment Display Driver for Apache Mynewt
 
-This has been written against Apache Mynewt 1.4.1. Changes may be required
-when using it with different releases.
+[![Build Status](https://travis-ci.org/microbuilder/mb_ht16k33.svg?branch=master)](https://travis-ci.org/microbuilder/mb_ht16k33)
+
+> **NOTE**: This has been written against Apache Mynewt 1.4.1. Changes may be
+  required with different releases.
 
 # Folder Structure
 
 - Reasonably complete **documentation** is available in the `docs` folder. The
-documentation can be built via `doxygen Doxyfile`.
+documentation can be built from the `docs`folder via `doxygen Doxyfile`.
 
 # Hardware
 
