@@ -32,11 +32,11 @@ int rc;
 rc = ht16k33_init(HTK16K33_REG_DIM_9);
 if (rc) {
     console_printf("HT16K33 init failed: %d\n", rc);
+} else {
+    /* Display some test data on the display. */
+    ht16k33_write_num(0, 1, true);      /* 1. */
+    ht16k33_write_num(1, 2, false);     /* 2  */
+    ht16k33_write_num(2, 5, false);     /* 5  */
+    ht16k33_write_alpha(3, 'K', false); /* K  */
 }
-
-/* Display some test data on the display. */
-ht16k33_write_num(0, 1, true);      /* 1. */
-ht16k33_write_num(1, 2, false);     /* 2  */
-ht16k33_write_num(2, 5, false);     /* 5  */
-ht16k33_write_alpha(3, 'K', false); /* K  */
 ```
