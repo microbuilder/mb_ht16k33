@@ -17,7 +17,7 @@
 
 language: go
 
-_addons: &addon_conf
+addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
