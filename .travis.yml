@@ -28,8 +28,8 @@ _addons: &addon_conf
 go:
   - "1.10"
 
-os: osx
-osx_image: xcode9.2
+#os: osx
+#osx_image: xcode9.2
 
 install:
 - printenv
