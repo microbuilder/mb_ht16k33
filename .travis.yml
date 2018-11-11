@@ -42,7 +42,7 @@ install:
 
 - newt version
 - gcc --version
-- arm-none-eabi-gcc --version
+#- arm-none-eabi-gcc --version
 
 script:
 - |
