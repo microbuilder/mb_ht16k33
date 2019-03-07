@@ -29,7 +29,7 @@
 extern "C" {
 #endif
 
-int ht16k33_test_suite(void);
+TEST_SUITE_DECL(ht16k33_test_suite);
 
 #ifdef __cplusplus
 }
